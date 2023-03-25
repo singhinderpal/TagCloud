@@ -46,7 +46,8 @@ class TagCloud {
         useContainerInlineStyles: true,
         useItemInlineStyles: true,
         containerClass: 'tagcloud',
-        itemClass: 'tagcloud--item'
+        itemClass: 'tagcloud--item',
+        useHTML: false,
     };
 
     // speed value
@@ -114,7 +115,11 @@ class TagCloud {
             itemEl.style.OTransform = transform;
             itemEl.style.transform = transform;
         }
-        itemEl.innerText = text;
+        if (self.config.useHTML) {
+            itemEl.innerHTML = text;
+        } else {
+            itemEl.innerText = text;
+        }
         return {
             el: itemEl,
             ...self._computePosition(index), // distributed in appropriate place
@@ -268,7 +273,11 @@ class TagCloud {
                 self.items.push(item);
             }
             // if had, replace text
-            item.el.innerText = text;
+            if (self.config.useHTML) {
+                item.el.innerHTML = text;
+            } else {
+                item.el.innerText = text;
+            }
         });
         // remove redundant self.items
         const textsLength = self.texts.length;
